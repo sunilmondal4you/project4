@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <!--jquery-->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- bootstrap-->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!--angular-->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/checklist-model/checklist-model.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+
+    <script src="index.js"></script>
+
+</head>
+<body ng-controller="myctrl">
+<nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Form <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link1</a></li>
+                <li><a href="#mymodal" data-toggle="modal">Modal</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <div style="color: black; background-color: #b2dba1; padding: 10px"; >
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Mobile no</th>
+                        <th>Eduction</th>
+                        <th>Gender</th>
+                        <th>Knwldg</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr ng-repeat="val in userbook | orderBy:predicate:reverse">
+                    <td>{{val.name}}</td>
+                    <td>{{val.email}}</td>
+                    <td>{{val.mobile}}</td>
+                    <td>{{val.x}}</td>
+                    <td>{{val.sex}}</td>
+                    <td>{{val.y}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm" ng-click="edtme($index);">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="deleteme($index);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4" style="background-color: silver">
+            <h3><span class="glyphicon glyphicon-hand-right"></span> Some of Imp Operations.</h3>
+            <ol>
+                <li>Push/Pop</li>
+                <li>Shift/Unshift</li>
+                <li>sort/Reverse</li>
+                <li>join</li>
+                <li>Concat</li>
+            </ol>
+            <hr>
+            <h3><span class="glyphicon glyphicon-star"></span> Operation on Education.</h3>
+            <div id="operations">
+                <button type="button" class="btn btn-sm btn-primary" ng-click="nwpush()">Push</button>
+                <button type="button" class="btn btn-sm btn-info" ng-click="nwpop()">Pop</button>
+                <button type="button" class="btn btn-sm btn-success" ng-click="nwunshift()">Unshift</button>
+                <button type="button" class="btn btn-sm btn-warning" ng-click="nwshift()">Shift</button>
+
+            </div>
+            <hr>
+            <h3><span class="glyphicon glyphicon-hand-right"></span> Other operations.</h3>
+            <div class="row" style="height: 40px;">
+                <div class="col-md-9">
+                    <p>1. Click to sort the table by name.</p>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-warning" ng-click="order('name')">Name</button>
+                    <span class="sortorder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span>
+                </div>
+            </div>
+            <div class="row" style="height: 40px;">
+                <div class="col-md-9">
+                    <p>2. Click to sort the table by Email.</p>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-danger" ng-click="order('email')">Email</button>
+                    <span class="sortorder" ng-show="predicate === 'email'" ng-class="{reverse:reverse}"></span>
+                </div>
+            </div>
+            <div class="row" style="height: 40px;">
+                <div class="col-md-9">
+                    <p>2. Click to Unsort the table.</p>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-success" ng-click="predicate=''">Unsort</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="mymodal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: blueviolet;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> <span class="glyphicon glyphicon-star-empty"></span> Form entry using Madal</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" name="myform">
+                    <div class="form-group">
+                        <label for="name"class="col-sm-3 control-label" style="text-align: center">Fullname
+                            <span style="color: red; font-size: 20px">*</span>
+                        </label>
+                        <div class="col-sm-9" style="height: 45px">
+                            <input type="text" name="nm" class="form-control" id="name" placeholder="name" ng-model="user.name" required>
+                            <div ng-messages="myform.nm.$error" ng-if="myform.nm.$touched" style="color:maroon">
+                                <p ng-message="required">Your name is required.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label" style="text-align: center">Email Id
+                            <span style="color: red; font-size: 20px">*</span>
+                        </label>
+                        <div class="col-sm-9" style="height: 45px">
+                            <input type="email" name="eml" class="form-control" id="email" placeholder="email" ng-model="user.email" required>
+                            <div ng-messages="myform.eml.$error" ng-if="myform.eml.$touched" style="color:maroon" role="alert">
+                                <p ng-message="required">Your name is required.</p>
+                                <p ng-message="email">Plese enter a valid email</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile" class="col-sm-3 control-label" style="text-align: center">Mobile no
+                            <span style="color: red; font-size: 20px">*</span>
+                        </label>
+                        <div class="col-sm-9" style="height: 45px">
+                            <input type="number" name="mbl" class="form-control" id="mobile" placeholder="mobile no" ng-model="user.mobile" ng-minlength="10"
+                                   ng-maxlength="13" required>
+                            <div ng-messages="myform.mbl.$error" ng-if="myform.mbl.$touched" style="color:maroon" role="alert">
+                                <p ng-message="required">Your name is required.</p>
+                                <p ng-message="minlength">Your mobile number is too short.</p>
+                                <p ng-message="maxlength">Your mobile number is too long.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edu" class="col-sm-3 control-label" style="text-align: center">Education
+                            <span style="color: red; font-size: 20px">*</span>
+                        </label>
+                        <div class="col-sm-9" style="height: 45px">
+                            <select class="col-sm-12 form-control" name="qlf" ng-model="user.x" id="edu" ng-options="x for x in education" required></select>
+                            <div ng-messages="myform.qlf.$error" ng-if="myform.qlf.$touched" style="color:maroon" role="alert">
+                                <p ng-message="required">Select your is Qualificafion.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gndr" class="col-sm-3 control-label" style="text-align: center">Gender</label>
+                        <div class="col-sm-9" style="height: 45px">
+                            <label class="radio-inline">
+                                <input type="radio"  id="gndr" ng-model="user.sex" value="male">Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio"  id="gndr" ng-model="user.sex" value="female"> Female
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" style="text-align: center">knowladge</label>
+                        <div class="col-sm-9">
+                            <label class="checkbox-inline" ng-repeat="y in knldg">
+                                <input type="checkbox"  checklist-model="user.y" checklist-value="y">{{y}}
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-sm btn-warning" ng-if="editg" ng-click="updatme($index);">Update </button>
+
+                <button type="submit" ng-disabled="(myform.nm.$invalid) || (myform.eml.$invalid)|| (myform.mbl.$invalid) || (myform.qlf.$invalid) "
+                        class="btn btn-sm btn-info" ng-if="!editg" ng-click="savme();">Save & Close </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
